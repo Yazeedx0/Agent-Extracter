@@ -1,71 +1,104 @@
-# OCR Agent - Invoice Extraction System
-An intelligent invoice extraction system that combines Google Gemini OCR with OpenAI GPT for accurate, structured data extraction from PDF invoices.
+
+# OCR Agent — Intelligent Invoice Extraction System
+
+An AI-powered invoice extraction system that combines **Google Gemini OCR** with **OpenAI GPT** to convert PDF invoices into accurate, structured JSON data.
+
 ![OCR](https://github.com/user-attachments/assets/671dfaba-b235-4183-a54d-a0e581aa1e95)
-##  Features
 
+---
 
-- **Dual-Model Architecture**: 
-  -  **Gemini 2.5 Pro** for advanced OCR and document understanding
-  -  **GPT-4/GPT-5** for intelligent data extraction and structuring
-  
-- **Bilingual Support**: Handles Arabic and English text seamlessly
-- **Smart Extraction**: Extracts invoices with semantic understanding
-- **RESTful API**: FastAPI-based endpoints for easy integration
+## 🚀 Features
 
-##  Architecture
+* **Dual-Model Architecture**
+
+  * **Gemini 2.5 Pro** — Advanced OCR, layout detection, and document understanding
+  * **GPT-4 / GPT-5** — Intelligent semantic extraction and data structuring
+
+* **Bilingual Support**
+  Seamlessly processes **Arabic and English** invoices.
+
+* **Smart Semantic Extraction**
+  Understands invoice context, tables, and relationships—not just raw text.
+
+* **RESTful API**
+  FastAPI-powered endpoints for easy integration into existing systems.
+
+---
+
+## 🧠 System Architecture
 
 ```
 PDF Invoice → Gemini OCR → GPT-5 Extraction → Structured JSON
 ```
 
-1. **Gemini OCR**: Extracts all text, tables, and visual data from PDF
-2. **GPT-5 Processing**: Parses and structures the data according to schema
-3. **Validation**: Returns clean, validated JSON output
+**Pipeline Overview**
 
-## Extracted Fields
+1. **Gemini OCR**
+   Extracts text, tables, and visual layout from PDF invoices.
 
-- Invoice ID & Date
-- Supplier Information (Name, Address, VAT)
-- Customer Information (Name, Address, VAT)
-- Line Items (Description, Quantity, Price, Unit, Total)
-- Financial Totals (Subtotal, Tax, Total Amount)
-- Payment Method & Notes
-- Currency
+2. **GPT Processing**
+   Interprets and structures the extracted content based on a predefined schema.
 
-## Quick Start
+3. **Validation Layer**
+   Returns clean, validated, production-ready JSON output.
+
+---
+
+## 📄 Extracted Invoice Fields
+
+* Invoice ID & Date
+* Supplier Information (Name, Address, VAT)
+* Customer Information (Name, Address, VAT)
+* Line Items (Description, Quantity, Unit, Unit Price, Total)
+* Financial Totals (Subtotal, Tax, Grand Total)
+* Payment Method
+* Notes
+* Currency
+
+---
+
+## ⚡ Quick Start
 
 ### Prerequisites
 
-- Python 3.12+
-- OpenAI API Key
-- Google Gemini API Key
+* Python **3.12+**
+* OpenAI API Key
+* Google Gemini API Key
+
+---
 
 ### Installation
 
-1. Clone the repository:
+1. **Clone the repository**
+
 ```bash
 git clone https://github.com/Yazeedx0/Agent-Parser.git
 cd OCR_Agent
 ```
 
-2. Create virtual environment:
+2. **Create a virtual environment**
+
 ```bash
 python3 -m venv env
-source env/bin/activate  # On Linux/Mac
+source env/bin/activate   # Linux / macOS
 # or
-env\Scripts\activate  # On Windows
+env\Scripts\activate      # Windows
 ```
 
-3. Install dependencies:
+3. **Install dependencies**
+
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Set up environment variables:
+4. **Configure environment variables**
+
 ```bash
 cp .env.example .env
-# Edit .env and add your API keys
+# Add your API keys to .env
 ```
+
+---
 
 ### Running the Server
 
@@ -73,24 +106,30 @@ cp .env.example .env
 python main.py
 ```
 
-The API will be available at `http://localhost:8000`
+The API will be available at:
+👉 **[http://localhost:8000](http://localhost:8000)**
+
+---
 
 ## 📡 API Endpoints
 
 ### 1. Extract Invoice (Full Pipeline)
 
-**Endpoint**: `POST /extract-invoice`
+**Endpoint**
+`POST /extract-invoice`
 
-Processes a PDF invoice through the complete Gemini → GPT-5 pipeline.
+Processes a PDF invoice using the complete **Gemini → GPT** pipeline.
 
-**Request**:
+**Request**
+
 ```bash
 curl -X POST "http://localhost:8000/extract-invoice" \
   -H "Content-Type: multipart/form-data" \
   -F "file=@invoice.pdf"
 ```
 
-**Response**:
+**Response**
+
 ```json
 {
   "filename": "invoice.pdf",
@@ -127,65 +166,91 @@ curl -X POST "http://localhost:8000/extract-invoice" \
 }
 ```
 
-### 2. Describe PDF (Gemini OCR Only)
+---
 
-**Endpoint**: `POST /describe-pdf`
+### 2. Describe PDF (OCR Only)
 
-Gets raw OCR output from Gemini without GPT processing.
+**Endpoint**
+`POST /describe-pdf`
 
-**Request**:
+Returns raw OCR output from Gemini without GPT post-processing.
+
+**Request**
+
 ```bash
 curl -X POST "http://localhost:8000/describe-pdf" \
   -H "Content-Type: multipart/form-data" \
   -F "file=@document.pdf"
 ```
 
+---
+
 ## 🔧 Configuration
 
 ### Environment Variables
 
-Create a `.env` file with:
+Create a `.env` file with the following values:
 
 ```env
 OPENAI_API_KEY=your_openai_api_key
 GEMINI_API_KEY=your_gemini_api_key
 ```
 
+---
+
 ### Model Configuration
 
-- **Gemini Model**: `gemini-2.5-pro` (in `parsing_service.py`)
-- **OpenAI Model**: `gpt-4o` (in `extracting_service.py`)
-  - Will use GPT-5 when available
+* **Gemini Model**: `gemini-2.5-pro`
+  *(configured in `parsing_service.py`)*
 
-## Project Structure
+* **OpenAI Model**: `gpt-4o`
+  *(configured in `extracting_service.py`)*
+  → Automatically switches to **GPT-5** when available.
+
+---
+
+## 🗂 Project Structure
 
 ```
 OCR_Agent/
-├── main.py                 # FastAPI application entry point
-├── requirements.txt        # Python dependencies
-├── .env                    # Environment variables (create from .env.example)
-├── .env.example           # Environment variables template
+├── main.py                  # FastAPI entry point
+├── requirements.txt         # Dependencies
+├── .env                     # Environment variables
+├── .env.example             # Environment template
 └── src/
     ├── api/
-    │   └── routes.py      # API endpoints
+    │   └── routes.py        # API routes
     ├── services/
-    │   ├── parsing_service.py     # Gemini OCR service
-    │   ├── extracting_service.py  # GPT-5 extraction service
-    │   └── pipeline.py            # Complete processing pipeline
+    │   ├── parsing_service.py     # Gemini OCR logic
+    │   ├── extracting_service.py  # GPT extraction logic
+    │   └── pipeline.py            # End-to-end pipeline
     ├── models/
-    │   └── schema.py      # Pydantic schemas
+    │   └── schema.py        # Pydantic schemas
     └── helpers/
-        └── config.py      # Configuration settings
+        └── config.py        # Configuration management
 ```
 
-## Development
+---
 
-### Adding New Features
+## 🛠 Development Guide
 
-1. **Add new extraction fields**: Update schemas in `src/models/schema.py`
-2. **Modify prompts**: Edit prompts in `src/services/extracting_service.py`
-3. **Add endpoints**: Create new routes in `src/api/routes.py`
+### Extending the System
 
-### Testing
+* **Add new fields** → Update `src/models/schema.py`
+* **Adjust extraction logic** → Modify prompts in `extracting_service.py`
+* **Create new endpoints** → Add routes in `src/api/routes.py`
 
-Test the API using the interactive docs at `http://localhost:8000/docs`
+---
+
+## 🧪 Testing & Documentation
+
+Interactive API documentation is available at:
+👉 **[http://localhost:8000/docs](http://localhost:8000/docs)**
+
+---
+
+If you want, I can also:
+
+* Make this README **more marketing-focused**
+* Add **badges**, **benchmarks**, or **architecture diagrams**
+* Rewrite it for **enterprise / SaaS positioning**
