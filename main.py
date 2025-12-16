@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.api.routes import router
+
+from src.api.v1.routes import router
 
 app = FastAPI(
     title="OCR Agent API",
@@ -8,7 +9,6 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Configure CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -17,16 +17,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include routes
 app.include_router(router, prefix="/api/v1")
+
 
 @app.get("/")
 async def root():
-    return {
-        "message": "OCR Agent API",
-        "version": "1.0.0",
-        "status": "running"
-    }
+    return {"message": "OCR Agent API", "version": "1.0.0", "status": "running"}
+
 
 @app.get("/health")
 async def health_check():
