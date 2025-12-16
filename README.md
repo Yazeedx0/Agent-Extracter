@@ -1,8 +1,8 @@
 # OCR Agent - Invoice Extraction System
-
 An intelligent invoice extraction system that combines Google Gemini OCR with OpenAI GPT for accurate, structured data extraction from PDF invoices.
-
+![OCR](https://github.com/user-attachments/assets/671dfaba-b235-4183-a54d-a0e581aa1e95)
 ##  Features
+
 
 - **Dual-Model Architecture**: 
   -  **Gemini 2.5 Pro** for advanced OCR and document understanding
